@@ -3,9 +3,9 @@ package com.example.shoppinglist
 import androidx.annotation.DrawableRes
 
 data class Category(
-  @DrawableRes val resId: Int,
-  val title: String,
-  val id: Int
+  @DrawableRes val resId: Int = -1,
+  val title: String = "",
+  val id: Int = -1
 )
 
 object Utils {

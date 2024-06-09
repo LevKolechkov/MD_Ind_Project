@@ -15,12 +15,11 @@ class Repository(
   val store = storeDao.getAllStores()
   val getItemsWithListAndStore = listDao.getItemsWithStoreAndList()
 
-  fun getItemWithStoreAndList(id: Int) = listDao
-    .getItemsWithStoreAndListFilteredById(id)
+  fun getItemWithStoreAndList(id: Int) =
+    listDao.getItemWithStoreAndListFilteredById(id)
 
-  fun getItemWithStoreAndListFilteredById(id: Int){
+  fun getItemWithStoreAndListFilteredById(id: Int) =
     listDao.getItemsWithStoreAndListFilteredById(id)
-  }
 
   suspend fun insertList(shoppingList: ShoppingList){
     listDao.insertShoppingList(shoppingList)
@@ -30,7 +29,7 @@ class Repository(
     storeDao.insert(store)
   }
 
-  suspend fun inserItem(item: Item){
+  suspend fun insertItem(item: Item){
     itemDao.insert(item)
   }
 

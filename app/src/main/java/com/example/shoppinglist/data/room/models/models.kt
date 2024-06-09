@@ -31,5 +31,6 @@ data class Store(
   @ColumnInfo(name = "store_id")
   @PrimaryKey(autoGenerate = true)
   val id: Int = 0,
-  val listIdFk: Int
+  val listIdFk: Int,
+  val storeName: String
 )

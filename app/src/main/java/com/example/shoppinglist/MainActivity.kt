@@ -10,6 +10,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.shoppinglist.ui.ShoppingListNavigation
+import com.example.shoppinglist.ui.home.HomeScreen
 import com.example.shoppinglist.ui.theme.ShoppingListTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,10 +20,15 @@ class MainActivity : ComponentActivity() {
     setContent {
       ShoppingListTheme {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-
+          ShoppingListApp()
         }
       }
     }
+  }
+
+  @Composable
+  fun ShoppingListApp() {
+    ShoppingListNavigation()
   }
 }
 
