@@ -20,7 +20,7 @@ data class Item (
   val id: Int = 0,
   val itemName: String,
   val qty: String,
-  val listIdFk: Int,
+  val listId: Int,
   val storeIdFk: Int,
   val date: Date,
   val isChecked: Boolean

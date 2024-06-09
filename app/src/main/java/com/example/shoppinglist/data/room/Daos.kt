@@ -13,7 +13,7 @@ import com.example.shoppinglist.data.room.models.Store
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface ItemDao{
+interface ItemDao {
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun insert(item: Item)
 
@@ -28,10 +28,11 @@ interface ItemDao{
 
   @Query("SELECT * FROM items WHERE item_id =:itemId")
   fun getItem(itemId: Int): Flow<Item>
+
 }
 
 @Dao
-interface  StoreDao{
+interface StoreDao {
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun insert(store: Store)
 
@@ -39,7 +40,7 @@ interface  StoreDao{
   suspend fun update(store: Store)
 
   @Delete
-  suspend fun delete(store: Store)
+  suspend fun delete(item: Item)
 
   @Query("SELECT * FROM stores")
   fun getAllStores(): Flow<List<Store>>
@@ -49,34 +50,35 @@ interface  StoreDao{
 }
 
 @Dao
-interface ListDao{
+interface ListDao {
   @Insert(onConflict = OnConflictStrategy.REPLACE)
   suspend fun insertShoppingList(shoppingList: ShoppingList)
 
   @Query("""
-    SELECT * FROM items AS I INNER JOIN shopping_list AS S
-    ON I.listIdFk = S.list_id INNER JOIN stores AS ST
-    ON I.storeIdFk = ST.store_id
-  """)
-  fun getItemsWithStoreAndList(): Flow<List<ItemsWithStoreAndList>>
+        SELECT * FROM items AS I INNER JOIN shopping_list AS S
+        ON I.listId = S.list_id INNER JOIN stores AS ST
+        ON I.storeIdFk = ST.store_id
+    """)
+  fun getItemsWithStoreAndList():Flow<List<ItemsWithStoreAndList>>
+  @Query("""
+        SELECT * FROM items AS I INNER JOIN shopping_list AS S
+        ON I.listId = S.list_id INNER JOIN stores AS ST
+        ON I.storeIdFk = ST.store_id WHERE S.list_id =:listId
+    """)
+  fun getItemsWithStoreAndListFilteredById(listId:Int)
+          :Flow<List<ItemsWithStoreAndList>>
 
   @Query("""
-    SELECT * FROM items AS I INNER JOIN shopping_list AS S
-    ON I.listIdFk = S.list_id INNER JOIN stores AS ST
-    ON I.storeIdFk = ST.store_id WHERE ST.listIdFk =:listId
-  """)
-  fun getItemsWithStoreAndListFilteredById(listId: Int): Flow<List<ItemsWithStoreAndList>>
-
-  @Query("""
-    SELECT * FROM items AS I INNER JOIN shopping_list AS S
-    ON I.listIdFk = S.list_id INNER JOIN stores AS ST
-    ON I.storeIdFk = ST.store_id WHERE I.item_id =:itemId
-  """)
-  fun getItemWithStoreAndListFilteredById(itemId: Int): Flow<ItemsWithStoreAndList>
+        SELECT * FROM items AS I INNER JOIN shopping_list AS S
+        ON I.listId = S.list_id INNER JOIN stores AS ST
+        ON I.storeIdFk = ST.store_id WHERE I.item_id =:itemId
+    """)
+  fun getItemWithStoreAndListFilteredById(itemId: Int)
+          :Flow<ItemsWithStoreAndList>
 }
 
 data class ItemsWithStoreAndList(
   @Embedded val item: Item,
   @Embedded val shoppingList: ShoppingList,
-  @Embedded val store: Store
+  @Embedded val store: Store,
 )
