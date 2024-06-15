@@ -167,7 +167,7 @@ private fun DetailEntry(
           !isNewEnabled
         }
       }) {
-
+        Text(text = if (isNewEnabled) "Save" else "New")
       }
     }
 
